@@ -10,5 +10,7 @@ jobs:
         uses: actions/checkout@v2
       - name: docker build
         run: docker build -t maksnd/test_deploy:$GITHUB_REF_NAME-$GITHUB_RUN_ID . # сборка образа
+      - name: docker login # логинимся в docker hub используя secrets в github
+        run: echo ${{ secrets.DOCKER_TOKEN }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
       - name: docker push # отправляем сборку в docker hub
         run: docker push maksnd/test_deploy:$GITHUB_REF_NAME-$GITHUB_RUN_ID
