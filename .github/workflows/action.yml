@@ -8,4 +8,6 @@ jobs:
         run: ls -la
       - name: clone code
         uses: action/checkout@v2
+      - name: list dir 2
         run: ls -la
+
