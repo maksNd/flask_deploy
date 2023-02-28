@@ -1,0 +1,23 @@
+name: Build and deploy workflow
+description: A workflow that builds and deploys code
+on:
+  push:
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+    description: Build and push code to production
+    steps:
+      - name: List directory contents
+        run: ls -la
+      - name: Clone code repository
+        uses: actions/checkout@v2
+        run: ls -la
+    runs:
+      # Define what the job will do
+      steps:
+        # Define the steps to be executed in the job
+        - name: List directory contents
+          run: ls -la
+        - name: Clone code repository
+          uses: actions/checkout@v2
+          run: ls -la
