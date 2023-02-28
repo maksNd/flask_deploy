@@ -9,5 +9,6 @@ jobs:
       - name: clone code # копирование кода
         uses: actions/checkout@v2
       - name: docker build
-        run: docker build -t maksnd/test_deploy:$GITHUB_REF_NAME-$GITHUB_RUN_ID .
-
+        run: docker build -t maksnd/test_deploy:$GITHUB_REF_NAME-$GITHUB_RUN_ID . # сборка образа
+      - name: docker push # отправляем сборку в docker hub
+        run: docker push maksnd/test_deploy:$GITHUB_REF_NAME-$GITHUB_RUN_ID
