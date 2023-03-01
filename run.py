@@ -28,7 +28,12 @@ def index():
         "total": len(users),
         "users": [{"username": user.username} for user in users],
     }
-    return jsonify(response)
+    return jsonify(response), 200
+
+
+@app.get('/ping')
+def ping():
+    return 'pong', 200
 
 
 @app.post('/register')
@@ -46,7 +51,6 @@ def register():
         return 'error', 400
 
     return 'ok', 200
-
 
 # if __name__ == '__main__':
 #     app.run(host='127.0.0.1', port=5000)
