@@ -15,3 +15,4 @@ jobs:
       - name: docker push # отправляем сборку в docker hub
         run: docker push maksnd/test_deploy:$GITHUB_REF_NAME-$GITHUB_RUN_ID
 
+
