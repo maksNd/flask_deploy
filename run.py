@@ -33,7 +33,7 @@ def index():
 
 @app.get('/ping')
 def ping():
-    return 'pong_again', 200
+    return 'pong', 200
 
 
 @app.post('/register')
