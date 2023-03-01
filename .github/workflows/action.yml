@@ -46,4 +46,4 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           script: |
             cd flask_app
-            echo ${{ secrets.PASSWORD }} | sudo -S dock  er-compose up -d
+            echo ${{ secrets.PASSWORD }} | sudo -S docker-compose up -d
