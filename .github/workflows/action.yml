@@ -1,12 +1,12 @@
 name: Build and deploy workflow # дадим название нашему workflow
-on: [push] # событие по которому запустится workflow
+on: [ push ] # событие по которому запустится workflow
 jobs:
   build_and_push: # первая часть - часть CI
     runs-on: ubuntu-latest
     steps:
       - name: list dir # для демонстрации
         run: ls -la
-      - name: clone code # копирование кода
+      - name: clone code # копирование кода на платформу GitHub Actions?
         uses: actions/checkout@v2
       - name: docker build
         run: docker build -t maksnd/test_deploy:$GITHUB_REF_NAME-$GITHUB_RUN_ID . # сборка образа
@@ -14,5 +14,25 @@ jobs:
         run: echo ${{ secrets.DOCKER_TOKEN }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
       - name: docker push # отправляем сборку в docker hub
         run: docker push maksnd/test_deploy:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: clone code
+        uses: actions/checkout@v2
+      - name: render configs
+        # создадим папку deploy чтобы положить в нее то что мы рендерим
+        run: |
+          mkdir deploy
+          cat docker-compose-ci.yaml | envsubst > deploy/docker-compose.yaml
+      - name: copy files to server # копирование файлов на сервер
+        uses: appleboy/scp-action@master # с помощью готового модуля
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          source: "deploy/docker-compose.yaml"
+          target: "flask_app"
+          strip_components: 1
+
 
 

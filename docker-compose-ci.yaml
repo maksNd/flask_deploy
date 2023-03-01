@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: ../test_deploy
+    image: maksnd/test_deploy
+    ports:
+      - 80:80
+    volumes:
+      - ./sqlite_database:/code/instance
+    depends_on:
+      pg:
+        condition: service_healthy
+  pg:
+    image: postgres
+    environment:
+      POSTGRES_USER: $DB_USER
+      POSTGRES_PASSWORD: $DB_PASSWORD
+      POSTGRES_DB: $DB_NAME
+    volumes:
+      - ./pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL","pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
