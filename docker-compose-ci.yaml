@@ -2,9 +2,7 @@ version: "3.9"
 
 services:
   api:
-    build:
-      context: ../test_deploy
-    image: maksnd/test_deploy
+    image: maksnd/test_deploy:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     ports:
       - 80:80
     volumes:

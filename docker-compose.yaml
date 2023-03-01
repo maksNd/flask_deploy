@@ -4,7 +4,7 @@ services:
   api:
     build:
       context: ../test_deploy
-    image: maksnd/test_deploy
+    image: maksnd/test_deploy # образ из docker hub
     ports:
       - 80:80
     volumes:
