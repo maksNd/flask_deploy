@@ -2,8 +2,8 @@ from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask('app')
-# app.config.from_pyfile('default_config.py')
-app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///app.db'
+app.config.from_pyfile('default_config.py')
+# app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///app.db'
 app.config.from_envvar("SQLALCHEMY_DATABASE_URI", silent=True)
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
