@@ -3,6 +3,10 @@ on: [ push ] # событие по которому запустится workflo
 jobs:
   build_and_push: # первая часть - часть CI - собираем образ и пушим в docker hub
     runs-on: ubuntu-latest
+    env:
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_NAME: ${{ secrets.DB_NAME }}
     steps:
       - name: list dir # для демонстрации
         run: ls -la
