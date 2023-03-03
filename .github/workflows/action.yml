@@ -1,7 +1,7 @@
 name: Build and deploy workflow # дадим название нашему workflow
 on: [ push ] # событие по которому запустится workflow
 jobs:
-  build_and_push: # первая часть - часть CI
+  build_and_push: # первая часть - часть CI - собираем образ и пушим в docker hub
     runs-on: ubuntu-latest
     steps:
       - name: list dir # для демонстрации
@@ -25,7 +25,9 @@ jobs:
       - name: clone code
         uses: actions/checkout@v2
       - name: render configs
-        # создадим папку deploy чтобы положить в нее то что мы рендерим
+        # создадим папку deploy
+        # создадим файл docker-compose.yaml с подмененными данными из GitHub secrets
+        # для подмены данных используется envsubst
         run: |
           mkdir deploy
           cat docker-compose-ci.yaml | envsubst > deploy/docker-compose.yaml
@@ -37,8 +39,8 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           source: "deploy/docker-compose.yaml"
           target: "flask_app"
-          strip_components: 1
-      - name: deploy app
+          strip_components: 1 # уберет один слэш
+      - name: deploy app # разворачиваем приложение
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}

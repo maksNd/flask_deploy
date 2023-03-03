@@ -5,6 +5,8 @@ services:
     image: maksnd/test_deploy:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     ports:
       - 80:80
+    environment:
+      - SQLALCHEMY_DATABASE_URI=postgresql://$DB_USER:$DB_PASSWORD@pg/$DB_NAME
     volumes:
       - ./sqlite_database:/code/instance
     depends_on:
