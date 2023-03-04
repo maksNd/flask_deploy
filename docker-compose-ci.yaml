@@ -5,20 +5,18 @@ services:
     image: maksnd/test_deploy:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     ports:
       - 80:80
-    environment:
-      SQLALCHEMY_DATABASE_URI: postgresql://user:password@postgres/ps_db
     depends_on:
-      postgres:
+      db:
         condition: service_healthy
-  postgres:
+  db:
     image: postgres
     environment:
 #      POSTGRES_USER: $DB_USER
 #      POSTGRES_PASSWORD: $DB_PASSWORD
 #      POSTGRES_DB: $DB_NAME
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: ps_db
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=pg
     volumes:
       - ./pg_data:/var/lib/postgresql/data
     healthcheck:
