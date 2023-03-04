@@ -6,14 +6,17 @@ services:
     ports:
       - 80:80
     depends_on:
-      pg:
+      db:
         condition: service_healthy
-  pg:
+  db:
     image: postgres
     environment:
-      POSTGRES_USER: $DB_USER
-      POSTGRES_PASSWORD: $DB_PASSWORD
-      POSTGRES_DB: $DB_NAME
+#      POSTGRES_USER: $DB_USER
+#      POSTGRES_PASSWORD: $DB_PASSWORD
+#      POSTGRES_DB: $DB_NAME
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=pg
     volumes:
       - ./pg_data:/var/lib/postgresql/data
     healthcheck:
