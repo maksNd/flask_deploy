@@ -6,18 +6,21 @@ services:
     ports:
       - 80:80
     environment:
-      - SQLALCHEMY_DATABASE_URI=postgresql://$DB_USER:$DB_PASSWORD@pg/$DB_NAME
+      - SQLALCHEMY_DATABASE_URI=postgresql://user:password@postgres/pg
     volumes:
       - ./sqlite_database:/code/instance
     depends_on:
-      pg:
+      postgres:
         condition: service_healthy
-  pg:
+  postgres:
     image: postgres
     environment:
-      POSTGRES_USER: $DB_USER
-      POSTGRES_PASSWORD: $DB_PASSWORD
-      POSTGRES_DB: $DB_NAME
+#      POSTGRES_USER: $DB_USER
+#      POSTGRES_PASSWORD: $DB_PASSWORD
+#      POSTGRES_DB: $DB_NAME
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=pg
     volumes:
       - ./pg_data:/var/lib/postgresql/data
     healthcheck:

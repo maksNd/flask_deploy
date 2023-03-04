@@ -1,11 +1,15 @@
+import os
+
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask('app')
 # app.config.from_pyfile('default_config.py')
 # app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///app.db'
-app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql://user:password@172.22.0.2/pg'
+# app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql://user:password@172.22.0.2/pg'
 # app.config.from_envvar("SQLALCHEMY_DATABASE_URI", silent=True)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI')
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
